@@ -24,7 +24,7 @@ enum MessageType {
   Video = 15, // Video(4), Video(43)
   Post = 16, // Moment, Channel, Tweet, etc
 }
-const SINGLE_MESSAGE_MAX_SIZE = 500;
+const SINGLE_MESSAGE_MAX_SIZE = 2000;
 type Speaker = RoomImpl | ContactImpl;
 interface ICommand{
   name:string;
@@ -35,7 +35,7 @@ export class ChatGPTBot {
   chatPrivateTriggerKeyword = config.chatPrivateTriggerKeyword;
   chatTriggerRule = config.chatTriggerRule? new RegExp(config.chatTriggerRule): undefined;
   disableGroupMessage = config.disableGroupMessage || false;
-  botName: string = "";
+  botName: string = "张扬磊";
   ready = false;
   setBotName(botName: string) {
     this.botName = botName;
@@ -65,6 +65,7 @@ export class ChatGPTBot {
           "# 根据 prompt 生成图片\n" +
           "/cmd clear\n" +
           "# 清除自上次启动以来的所有会话\n" +
+          "zhangyanglei's bot -v0.1 ^ 。^\n"+
           "========");
       }
     },
@@ -225,7 +226,8 @@ export class ChatGPTBot {
     room: RoomInterface
   ) {
     const gptMessage = await this.getGPTMessage(await room.topic(),text);
-    const result = `@${talker.name()} ${text}\n\n------\n ${gptMessage}`;
+    // const result = `@${talker.name()} ${text}\n\n------\n ${gptMessage}`;
+    const result = `@${talker.name()} \n\n------\n ${gptMessage}`;
     await this.trySay(room, result);
   }
   async onMessage(message: Message) {
